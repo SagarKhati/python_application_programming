@@ -1,0 +1,3 @@
+Hi, I am the file and being used as   
+an example to read a   
+file in python.
