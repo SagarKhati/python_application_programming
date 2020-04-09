@@ -1,2 +1,2 @@
-echo "# python_applicatoin_programming"
+echo "# python_application_programming"
 
