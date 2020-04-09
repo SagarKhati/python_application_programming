@@ -123,6 +123,7 @@ def run_process(cmd_args):
         out1 = p.communicate()[0]
     return out1
 
+
 cmd_args_cnt = 0
 cmd_args_cnt = int(input())
 cmd_args_i = 0
@@ -145,6 +146,6 @@ if 'with' in inspect.getsource(run_process):
 if 'Popen' in inspect.getsource(run_process):
     print("'Popen' used in 'run_process' function definition.\n")
     print('Process Output : %s\n' % (res.decode("utf-8")))
-f.close()
+
 
     
