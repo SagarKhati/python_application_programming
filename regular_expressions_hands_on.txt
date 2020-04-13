@@ -1,0 +1,491 @@
+Regular Expressions:
+---------------------
+If we want to represent a group of strings according to perticular 
+pattern then we should go for REs.
+
+
+Main inportant application areas of RE:
+---------------------------------------
+1. Validations
+2. Pattern Matching applications
+   ctrl f, grp
+3. Translators like compilers, interpreters, assemblers
+4. To develop digital circuits
+5. Comunication protocols TCP/IP etc
+
+
+re module
+
+1. compile() function:
+----------------------
+import re
+pattern=re.compile('Python')
+print(type(pattern))      --> <class '_sre.SRE_Pattern'>
+
+
+2. finditer():
+--------------
+matcher=pattern.finditer('Learning Python is very easy...')
+1. start(): --> start index of the match
+2. end():   --> end+1 index of the match
+3. group(): --> Returns matched string
+ 
+import re
+pattern = re.compile('ab')
+matcher = pattern.finditer('abaababa')
+count = 0
+for match in matcher:
+	count+=1
+	print('match is available at start index :',match.start())
+print('The number of occurrences:',count)
+
+import re
+#pattern = re.compile('ab')
+#matcher = pattern.finditer('abaababa')
+matcher = re.finditer('ab', 'abaababa')
+print(type(matcher))   # --> <class 'callable_iterator'>
+count = 0
+for m in matcher:
+	count+=1
+	print('start: {} end: {} group: {}'.format(m.start(),m.end(),m.group()))
+print('The number of occurrences:',count)
+
+start: 0 end: 2 group: ab
+start: 3 end: 5 group: ab
+start: 5 end: 7 group: ab
+The number of occurrences: 3
+
+
+Character classes:
+------------------
+[abc]        either a or b or c
+[^abc]       except a and b and c
+[a-z]        any lower case alphabet symbols
+[A-Z]        any upper case alphabet symbols
+[a-zA-z]     any alphabet symbols
+[0-9]        any digit
+[a-zA-Z0-9]  any alphanumeric character
+[^a-zA-Z0-9] except alphanumeric character
+
+import re
+matcher = re.finditer('[abc]','a7b@k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('[^abc]','a7b@k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('[a-z]','a7b@k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('[0-9]','a7b@k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('[a-zA-Z0-9]','a7b@k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('[^a-zA-z0-9]','a7b@k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+
+Predefined Character classes:
+-----------------------------
+\s space character
+\S except space character
+\d any digit(similarr to [0-9])
+\D except digits(similar to  [^0-9])
+\w any word character(alpha numeric character [a-zA-Z0-9])
+\W any chracter except word(special characters [^a-zA-Z0-9])
+.  Every character
+
+import re
+matcher = re.finditer('\s','a7b @k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('\S','a7b @k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('\d','a7b @k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('\D','a7b @k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('\w','a7b @k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('\W','a7b @k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('.','a7b @k9z')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+
+Quantifiers:
+------------
+used to specify the number of occurrence to match
+
+a      exactly one 'a'
+a+     atleast one 'a'
+a*     any number of 'a' incuding 0
+a?     atmost one 'a'
+a{n}   exactly n number of a's
+a{m,n} minimum m number of a's and maximum n number of a's
+a{n}a* atleast n
+^a     start with a
+a$     end with a
+
+import re
+matcher = re.finditer('a','abaabaaab')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('a+','abaabaaab')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('a*','abaabaaab')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('a?','abaabaaab')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('a{3}','abaabaaab')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('a{2,3}','abaabaaab')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('^a','abaabaaab')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+matcher = re.finditer('a$','abaabaaab')
+for m in matcher:
+	print(m.start(),'....',m.group())
+
+
+Important functions of re module:
+---------------------------------
+1. match()
+2. fullmatch()
+3. search()
+4. findall()
+5. finditer()
+6. sub()
+7. subn()
+8. split()
+9. compile()
+
+1. match()
+-----------
+to check the given pattern at the beginning of the target string
+
+import re
+s=input()
+m=re.match(s,'abcdefgh')
+if m!=None:
+	print('Match is available at the beginning of the string')
+	print('Start Index: {} End Index: {}'.format(m.start(),m.end()))
+else:
+	print('Match is not available at the beginning of the string')
+
+
+2. fullmatch()
+--------------
+import re
+s=input()
+m=re.fullmatch(s,'abcdefgh')
+if m!=None:
+	print('Full String Matched')
+	print('Start Index: {} End Index: {}'.format(m.start(),m.end()))
+else:
+	print('Full String not matched')
+
+
+3. search()
+-----------
+to check the first occurrence of given pattern at any position of the target string
+
+import re
+s=input()
+m=re.search(s,'abaabaaab')
+if m!=None:
+	print('Match is available')
+	print('First occurrence with Start Index: {} End Index: {}'.format(m.start(),m.end()))
+else:
+	print('Match is not available')
+
+
+4. findall()
+------------
+return list of start index of matched pattern
+
+import re
+l=re.findall('[0-9]','a7b9k6z')
+print(l)
+
+
+5. finditer()
+-------------
+import re
+matcher=re.finditer('\d', 'a7bk9z6')
+for m in matcher:
+	print(m.start(),m.end(),m.group())
+
+
+6. sub()
+--------
+substutution or replacement
+re.sub(regex,replacement,targetstring)
+
+import re
+s=re.sub('\d','#','a7b9k5t9k')
+print(s)  #  a#b#k#t#k
+
+
+7. subn()
+---------
+return tuple of result string and number of replacement
+
+import re
+t=re.subn('\d','#','a7b9k5t9k')
+print(type(t))
+print('The Result String:',t[0])
+print('The number of replacement:',t[1])
+print(t)  # --> (a#b#k#t#k,4)
+
+
+8. split()
+----------
+import re
+l=re.split('-','10-20-30-40-50')
+print(l) # --> ['10','20','30','40','50']
+
+l=re.split('.','www.durgasoftvideos.com')
+for x in l:
+	print(x)       # nothing
+
+l=re.split('[.]','www.durgasoftvideos.com')
+for x in l:
+	print(x)      
+
+l=re.split('\.','www.durgasoftvideos.com')
+for x in l:
+	print(x)
+
+-------------------------------------------------------------------------
+
+
+^ symbol:
+---------
+
+import re
+s="Learning Python is very easy"
+res = re.search('^Learn',s)
+if res != None:
+	print('Target string starts with Learn')
+else:
+	print('Target string not starts with Learn')
+
+
+$ symbol:
+---------
+import re
+s="Learning Python is very Easy"
+res = re.search('Easy$',s)
+if res != None:
+	print('Target string ends with Easy')
+else:
+	print('Target string not ends with Easy')
+
+import re
+s="Learning Python is very easy"
+res = re.search('Easy$',s,re.IGNORECASE)
+if res != None:
+	print('Target string ends with easy')
+else:
+	print('Target string not ends with easy')
+
+
+
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+
+
+
+All Yava Language Identifiers
+
+1. The allowed characters are:
+	alphabet
+	digits
+	#
+2. first character should be lower case alphabet symbol froma to k
+3. The second character should be any digit divisible by 3
+4. The length of identifier should be atleast 2
+
+[a-k][0369][a-zA-Z0-9#]*
+
+import re
+s = input('Enter Identifier to validate: ')
+m = re.fullmatch('[a-k][0369][a-zA-Z0-9#]*', s)
+if m != None:
+	print(s,'is valid Yava Identifier')
+else:
+	print(s,'is not valid Yava Identifier')
+
+
+10 digit mobile numbers:
+------------------------
+
+[6789][0-9]{9}
+[6-9][0-9]{9}
+[6-9]\d{9}
+
+import re
+s = input('Enter Mobile number to validate: ')
+m = re.fullmatch('[6-9]\d{9}', s)
+if m != None:
+	print(s,'is valid Mobile number')
+else:
+	print(s,'is not valid Mobile number')
+
+
+10 digit or 11 digit or 13 digit also:
+--------------------------------------
+11: the first digit should be 0
+12: the first 2 digit should be 91
+13: the first 3 digit should be +91
+
+import re
+s = input('Enter Car registration number: ')
+m = re.fullmatch('(0|91|\+91|)[6-9][0-9]{9}', s)
+if m != None:
+    print('Valid')
+else:
+    print('Invalid')
+
+
+to extract all mobile numbers prsent in input.txt file:
+-------------------------------------------------------
+import re
+with open('input.txt','r') as f1:
+    with open('output.txt','w') as f2:
+        for line in f1:
+            l = re.findall('[6-9]\d{9}',line)
+            for number in l:
+                f2.write(number+"\n")
+print('Extracted all mobile numbers into output.txt')
+
+
+web Scraping by using Regular Expression:
+-----------------------------------------
+import re, urllib
+import urllib.request
+sites=['https://google.com','https://rediff.com','http://gbpec.ac.in']
+for s in sites:
+    print('Searching...',s)
+    u = urllib.request.urlopen(s)
+    text = u.read()
+    title = re.findall('<title>.*</title>', str(text), re.IGNORECASE)
+    print(title[0])
+
+
+Read all mobile numbers present in redbus.in:
+---------------------------------------------
+import re, urllib
+import urllib.request
+u = urllib.request.urlopen('https://www.redbus.in/info/contactus')
+text = u.read()
+numbers = re.findall('[0-9-]{7}[0-9-]+',str(text))
+for n in numbers:
+    print(n)
+
+
+mail id is valid gmail id or not:
+---------------------------------
+import re
+s = input('Enter Mail id: ')
+m = re.fullmatch('\w[a-zA-Z0-9_.]*@gmail[.]com', s)
+if m != None:
+    print('Valid Main Id')
+else:
+    print('Invalid Mail Id')
+
+m = re.fullmatch('\w[a-zA-Z0-9_.]*@(gmail|rediffmain)[.]com', s)
+m = re.fullmatch('\w[a-zA-Z0-9_.]*@[a-z0-9]*[.]com', s)
+m = re.fullmatch('\w[a-zA-Z0-9_.]*@[a-z0-9]+[.][a-z]+', s)
+
+
+Car registration Number is valid TS number:
+-------------------------------------------
+
+TS07EA7777
+
+TS[012][0-9][A-Z]{2}\d{4}
+
+
+import re
+s = input('Enter Car registration number: ')
+m = re.fullmatch('TS[012][0-9][A-Z]{2}\d{4}', s)
+if m != None:
+    print('Valid')
+else:
+    print('Invalid')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
